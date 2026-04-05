@@ -2,7 +2,7 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
-from crewai_tools import SerperDevTool, ScrapeWebsiteTool, SeleniumScrapingTool
+from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,9 +10,8 @@ load_dotenv()
 # create the tools for the agent
 web_search_tool = SerperDevTool()
 web_scraping_tool = ScrapeWebsiteTool()
-selenium_scraping_tool = SeleniumScrapingTool()
 
-toolkit = [web_search_tool, web_scraping_tool, selenium_scraping_tool]
+toolkit = [web_search_tool, web_scraping_tool]
 
 # define the crew class
 @CrewBase
