@@ -1,11 +1,39 @@
+import atexit
+import logging
+
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 from dotenv import load_dotenv
+from ants_platform import AntsPlatform
+from ants_platform.crewai import EventListener
 
 load_dotenv()
+
+_logger = logging.getLogger("ants_crew_init")
+
+_pk = "pk-ap-ee83027c-f011-448e-aa65-7bf5fe857ee7"
+_sk = "sk-ap-2c13e4d7-33b4-4157-8051-0b2424929910"
+_host = "https://app.agenticants.ai"
+
+
+# _pk = "pk-ap-12a80feb-7740-43e1-a252-7384f299396b"
+# _sk = "sk-ap-092bbf57-17a1-455a-a3c2-61b83ae12bba"
+# _host = "http://localhost:3000"
+
+_logger.warning("ANTS_INIT PK=%s SK=%s HOST=%s", bool(_pk), bool(_sk), _host)
+
+_ants_client = AntsPlatform(public_key=_pk, secret_key=_sk, host=_host, timeout=30)
+_ants_listener = EventListener(
+    public_key=_pk,
+    agent_name="market_research_crew",
+    agent_display_name="Market Research Crew v1.0",
+)
+atexit.register(_ants_client.flush)
+
+_logger.warning("ANTS_INIT_DONE")
 
 # create the tools for the agent
 web_search_tool = SerperDevTool()
